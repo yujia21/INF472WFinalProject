@@ -1,0 +1,46 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 13 avr. 2014, 09:14:23
+    Author     : olivierserre
+*/
+@import url(http://fonts.googleapis.com/css?family=Raleway:500);
+body { padding-top: 70px; }
+[class*="col-"].gris {
+    background-color: grey;
+    border:solid 1px white;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+[class*="col-"].aboutus {
+    background-color: #B0C4DE;
+    font-family: 'Raleway', sans-serif;
+}
+[class*="col-"].allcountries {
+    background-color: #D4C6F1;
+    font-family: 'Raleway', sans-serif;
+    border:solid 1px white;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+
+[class*="img"].portrait {
+    height:140px;
+    border-radius: 35%;
+}
+[class*="img"].header {
+    width:50%;
+    border-radius: 25%;
+}
+
+[class*="img"].logonav {
+    height:45px;
+    padding-top: 2px;
+    padding-right: 2px;
+    padding-bottom: 2px;
+    padding-left: 2px;
+}

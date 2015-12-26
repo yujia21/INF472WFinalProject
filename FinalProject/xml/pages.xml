@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pages>
+    <page>
+        <name>welcome</name>
+        <menutitle>Home Page</menutitle>
+        <title>Home Page</title>
+        <showmenu>true</showmenu>
+    </page>
+    <page>
+        <name>about</name>
+        <menutitle>About Us</menutitle>
+        <title>About Us</title>
+        <showmenu>true</showmenu>
+    </page>
+    <page>
+        <name>contact</name>
+        <menutitle>Contact Us</menutitle>
+        <title>Contact Us</title>
+        <showmenu>true</showmenu>
+    </page>
+    <page>
+        <name>faq</name>
+        <menutitle>F.A.Q.</menutitle>
+        <title>F.A.Q.</title>
+        <showmenu>true</showmenu>
+    </page>
+    
+    <page>
+        <name>profile</name>
+        <menutitle>Your Profile</menutitle>
+        <title>Your Profile</title>
+        <member>true</member>
+        <showmenu>true</showmenu>
+    </page>
+    <page>
+        <name>convo</name>
+        <menutitle>Start a Conversation</menutitle>
+        <title>Start a Conversation</title>
+        <showmenu>true</showmenu>
+        <member>TOBECHANGED</member>
+    </page>
+    
+    
+    <page>
+        <name>regis</name>
+        <menutitle>Register</menutitle>
+        <title>Register</title>
+    </page>
+    
+        <page>
+        <name>registered</name>
+        <menutitle>Registration Successful</menutitle>
+        <title>Registration Successful</title>
+        </page>
+    
+        <page>
+        <name>languages</name>
+        <menutitle>Spoken Languages</menutitle>
+        <title>Spoken Languages</title>
+        <member>true</member>
+        </page>
+</pages>

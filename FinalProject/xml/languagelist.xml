@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<languages>
+    <language>
+        <name>eng</name>
+        <menutitle>English</menutitle>
+        <title>English</title>
+        <haspage>true</haspage>
+    </language>
+    <language>
+        <name>fr</name>
+        <menutitle>Français</menutitle>
+        <title>Français</title>
+        <haspage>true</haspage>
+    </language>
+    <language>
+        <name>es</name>
+        <menutitle>Español</menutitle>
+        <title>Español</title>
+        <haspage>true</haspage>
+    </language>
+</languages>
