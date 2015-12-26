@@ -118,12 +118,12 @@ class Utilisateur {
     }
         function showLanguages ($login){
             $dbh=Database::connect();
-            $query= "SELECT `language`,`level`  FROM `known_languages` WHERE `login`='$login'";
+            $query= "SELECT `language_id`,`level`  FROM `known_languages` WHERE `login`='$login'";
             $sth = $dbh->prepare($query);
             $sth->execute();
 
             while($row = $sth->fetch(PDO::FETCH_ASSOC)){   
-                
+                echo $row;
                 echo "You currently speak ".$row['language']. " at level ".$row['level']. "<br>"; 
             }
             

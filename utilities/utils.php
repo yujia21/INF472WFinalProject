@@ -97,9 +97,9 @@ foreach($page_list as $page){
     if ($page->showmenu=="true"){
         global $askedPage;
         if ($askedPage==$page->name){
-            echo "<li class=\"active\"><a href=\"/FinalProject/index.php?page=$page->name\">$page->menutitle</a></li>";
+            echo "<li class=\"active\"><a href=\"/INF472WFinalProject/index.php?page=$page->name\">$page->menutitle</a></li>";
         }
-        else {echo "<li><a href=\"/FinalProject/index.php?page=$page->name\">$page->menutitle</a></li>";}
+        else {echo "<li><a href=\"/INF472WFinalProject/index.php?page=$page->name\">$page->menutitle</a></li>";}
     }
 }
 ?>
@@ -162,8 +162,8 @@ echo <<<notIn
                         <p><button type="submit" class="btn btn-default" />Submit</p>
                         </form>                 
                 </ul>
-                <p><a href="/FinalProject/index.php?page=regis"> Register Now! </a></p>
                 </li>
+                <li><a href=\"/INF472WFinalProject/index.php?page=regis">Register Now! </a></li>
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
@@ -183,7 +183,6 @@ echo <<<IN
                         <p><button type="submit" class="btn btn-default" />Log out</p>
                         </form>                 
                 </ul>
-                <p><a href="/FinalProject/index.php?page=regis"> Register Now! </a></p>
                 </li>
             </ul>
         </div><!-- /.navbar-collapse -->
