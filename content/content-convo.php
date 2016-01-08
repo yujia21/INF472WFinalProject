@@ -4,7 +4,16 @@
             <div class="jumbotron">
                 <div class="container">
                     <h1 style="text-align:center">Start a Conversation</h1>
-                    <p class="text-center">Here are some people</p>
+                    <p>
+                    <?php require_once("utilities/userfunctions.php");
+                            showLanguages($_SESSION["loggedIn"]);
+                            ?></p>
+                    <p class="text-center">Here are some people you can speak with: </p>
+                    <p>
+                        <?php require_once("utilities/userfunctions.php");
+                            usersalllangue($_SESSION["loggedIn"]);
+                        ?>
+                    </p>
                 </div>
             </div>
         </div>

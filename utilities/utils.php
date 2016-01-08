@@ -163,7 +163,7 @@ echo <<<notIn
                         </form>                 
                 </ul>
                 </li>
-                <li><a href=\"/INF472WFinalProject/index.php?page=regis">Register Now! </a></li>
+                <li><a href="/INF472WFinalProject/index.php?page=regis">Register Now! </a></li>
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->

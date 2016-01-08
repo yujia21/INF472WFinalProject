@@ -2,14 +2,14 @@
 
 class Database {
         public static function connect() {
-        $dsn = 'mysql:dbname=tutoring;host=127.0.0.1';
+        $dsn = 'mysql:dbname=finalproject;host=127.0.0.1';
         $user = 'root';
         $password = '';
         $dbh = null;
         try {
             $dbh = new PDO($dsn, $user, $password,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
             $dbh->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-            echo "<p>Connected to database!</p>";
+            //echo "<p>Connected to database!</p>";
         } catch (PDOException $e) {
             echo 'Connexion échouée : ' . $e->getMessage();
             exit(0);
@@ -101,17 +101,40 @@ class Utilisateur {
         $dbh = null; // Déconnexion de MySQL
     }
     
-        function addLanguage($login,$level,$language){
+        function languetoid($language){
         $dbh = Database::connect();
-        $sth = $dbh->prepare("INSERT INTO `known_languages` (`login`, `level`,`language`) VALUES(?,?,?)");
-        $sth->execute(array($login,$level,$language));
- 
-        $dbh = null; // Déconnexion de MySQL
+        $sth = $dbh->prepare("SELECT `langue_id` FROM `langues` WHERE `langue` = '$language'");
+        $sth ->execute();
+        while($row = $sth->fetch(PDO::FETCH_ASSOC)){   
+            $id = $row['langue_id'];
+        }
+        $dbh = null;
+        return $id;
+        }
+        
+        function idtolangue($id){
+        $dbh = Database::connect();
+        $sth = $dbh->prepare("SELECT `langue` FROM `langues` WHERE `langue_id` = '$id'");
+        $sth ->execute();
+        while($row = $sth->fetch(PDO::FETCH_ASSOC)){   
+            $langue = $row['langue'];
+        }
+        $dbh = null;
+        return $langue;
+        }
+    
+        function addLanguage($login,$level,$language){
+        $id = languetoid($language);
+        $dbh = Database::connect();
+        $sth = $dbh->prepare("INSERT INTO `known_languages` (`login`, `level`,`language_id`) VALUES(?,?,?)");
+        $sth->execute(array($login,$level,$id));
+         $dbh = null; // Déconnexion de MySQL
     }
     
         function updateLanguage($login,$level,$language){
+        $id = languetoid($language);
         $dbh = Database::connect();
-        $sth = $dbh->prepare("UPDATE `known_languages` SET `level`='$level' WHERE  `login`='$login' AND `language`='$language' ");
+        $sth = $dbh->prepare("UPDATE `known_languages` SET `level`='$level' WHERE  `login`='$login' AND `language_id`='$id' ");
         $sth->execute();
  
         $dbh = null; // Déconnexion de MySQL
@@ -121,10 +144,10 @@ class Utilisateur {
             $query= "SELECT `language_id`,`level`  FROM `known_languages` WHERE `login`='$login'";
             $sth = $dbh->prepare($query);
             $sth->execute();
-
+            
             while($row = $sth->fetch(PDO::FETCH_ASSOC)){   
-                echo $row;
-                echo "You currently speak ".$row['language']. " at level ".$row['level']. "<br>"; 
+                $langue = idtolangue($row['language_id']);
+                echo "You currently speak ".$langue. " at level ".$row['level']. "<br>"; 
             }
             
             $dbh = null;    
@@ -146,9 +169,11 @@ class Utilisateur {
             $dbh = null;    
             
         }
-           function languageExists($login ,$language){
+        
+        function languageExists($login ,$language){
+        $id = languetoid($language);
         $dbh = Database::connect();
-        $query = "SELECT * FROM `known_languages` WHERE `login`='$login' AND `language`='$language' ";
+        $query = "SELECT * FROM `known_languages` WHERE `login`='$login' AND `language_id`='$id' ";
         $sth = $dbh->prepare($query);
         $sth->execute();
         $aux=$sth->fetch(PDO::FETCH_ASSOC);
@@ -166,5 +191,42 @@ class Utilisateur {
          $data = htmlspecialchars($data);
          return $data;
          }
+        
+        function usersalllangue ($login){
+            $dbh=Database::connect();
+            $query= "SELECT `language_id` FROM `known_languages` WHERE `login`='$login'";
+            $sth = $dbh->prepare($query);
+            $sth->execute();
+            while($row = $sth->fetch(PDO::FETCH_ASSOC)){
+                $id=$row['language_id'];
+                echo "<b>".idtolangue($id).":</b><br>";
+                usersforlangue($login,$id);
+            }
+        }
+         
+        function usersforlangue ($login,$id){
+            $dbh=Database::connect();
+            $query= "SELECT `level`  FROM `known_languages` WHERE `login`='$login' AND `language_id`='$id'";
+            $sth = $dbh->prepare($query);
+            $sth->execute();
+            while($row = $sth->fetch(PDO::FETCH_ASSOC)){   
+                $level=$row['level'];
+            }
+            
+            $query= "SELECT `login`  FROM `known_languages` WHERE `language_id`='$id' AND `level`<='$level'+10 AND `level`>='$level'-10";
+            $sth = $dbh->prepare($query);
+            $sth->execute();
+            $n=0;
+            while($row = $sth->fetch(PDO::FETCH_ASSOC)){
+                $user=$row['login'];
+                if ($user != $login){
+                    echo $user."<br>";
+                    $n=$n+1;
+                }
+            }
+            echo $n." user(s) found<br><br>";
+            $dbh = null;    
+            
+        }
  
 ?>

@@ -37,7 +37,7 @@
         <menutitle>Start a Conversation</menutitle>
         <title>Start a Conversation</title>
         <showmenu>true</showmenu>
-        <member>TOBECHANGED</member>
+        <member>true</member>
     </page>
     
     
