@@ -1,5 +1,6 @@
 <div class="container-fluid">
     <header>
+        
         <div class="row">
             <div class="jumbotron">
                 <div class="container">
@@ -59,6 +60,12 @@
    <br><br>
             </div>
             <div class="form-group">
+                
+              
+              <label for="level">Level:</label>
+              <input type="range" data-popup-enabled="true" name="level" class="form-control" id="level" value="<?php echo $level;?>" min="1" max="100">
+              
+                
               <label for="level">Level:</label>
               <input type="number" name="level" class="form-control" id="level" min="1" max="100" value="<?php echo $level;?>">
               <span class="error">* <?php echo $levelErr;?></span>
