@@ -11,7 +11,9 @@
     
     <div class="row">
         <div class="col-md-8 col-md-offset-2 aboutus">                         
-            <p class="text-center">text text</p>
+            <h1>Who we are</h1><br> <!--update to show all admin?-->
+            Renan<br>
+            Yu Jia<br>
         </div>
     </div>
 </div>

@@ -59,4 +59,16 @@
         <title>Spoken Languages</title>
         <member>true</member>
         </page>
+        
+        <page>
+        <name>userprofile</name>
+        <title>Viewing User Profile</title>
+        <member>true</member>
+        </page>
+        
+        <page>
+        <name>rateuser</name>
+        <title>Rating User's Language Skills</title>
+        <member>true</member>
+        </page>
 </pages>
