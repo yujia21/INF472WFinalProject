@@ -127,11 +127,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $loginErr= "Login is required";
   } else {
       $login= $_POST["login"];
-      $aux= Utilisateur::PasswordMatches($login,$pwd);
-      if($aux==2){
+      $aux= Utilisateur::PasswordMatches($login,$pwd); 
+      if($aux==2){ // AUX IS CORRECT, but doesn't pop up?
           $loginErr= "Login doesn't exist.";
       } else {
           if($aux==0){
+              
               $pwdErr="Password incorrect";
           }               
       }
@@ -155,9 +156,9 @@ echo <<<notIn
                 <ul class="dropdown-menu">
                     <form class="form-signin" action="?page=profile" method="post">
                         <p><input type="text" class="form-control" placeholder="Login" name="login" id="login" required autofocus></p>
-                        <span class="error">* <?php echo .$loginErr.;?></span>
+                        <span class="error"><?php echo .$loginErr.;?></span>
                         <p><input type="password" class="form-control" placeholder="Password" name="pwd" id="pwd" required></p>
-                        <span class="error">* <?php echo .$pwdErr.;?></span>
+                        <span class="error"><?php echo .$pwdErr.;?></span>
                         <p><input type="checkbox" name="remember" value="remember" />Remember me</p>
                         <p><button type="submit" class="btn btn-default" />Submit</p>
                         </form>                 

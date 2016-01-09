@@ -15,7 +15,7 @@
             <p class="text-center"><h3>Your Language Abilities: </h3></p>
             <p>
                 <?php require_once("utilities/userfunctions.php");
-                    showLanguages($_SESSION["loggedIn"]);
+                    showLanguages($_SESSION["loggedIn"],true);
                 ?>
             </p>
             <p class="text-center"><h3>Here are some people you can speak with: </h3></p>

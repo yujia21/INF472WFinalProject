@@ -140,15 +140,48 @@ class Utilisateur {
         $dbh = null; // Déconnexion de MySQL
     }
     
-    function showLanguages ($login){
+    function rateLanguage($login,$ratedlevel,$language){
+        $id = languetoid($language);
+        $dbh = Database::connect();
+        $sth = $dbh->prepare("SELECT `ratedlevel`,`conversations` FROM `known_languages` WHERE  `login`='$login' AND `language_id`='$id' ");
+        $sth->execute();
+        
+        while($row = $sth->fetch(PDO::FETCH_ASSOC)){   
+            $oldlevel = $row['ratedlevel'];
+            $oldnumber = $row['conversations'];
+        }
+        $newnumber = $oldnumber + 1;
+        if ($oldnumber == 0){
+            $newlevel = $ratedlevel;
+        } else {
+            $newlevel = ($oldlevel * $oldnumber + $ratedlevel) / $newnumber;
+        }
+        
+        $sth = $dbh->prepare("UPDATE `known_languages` SET `ratedlevel`='$newlevel', `conversations` = '$newnumber' WHERE  `login`='$login' AND `language_id`='$id' ");
+        $sth->execute();
+        $dbh = null; // Déconnexion de MySQL
+    }
+    
+    function showLanguages ($login, $self){
         $dbh=Database::connect();
-        $query= "SELECT `language_id`,`level`  FROM `known_languages` WHERE `login`='$login'";
+        $query= "SELECT `language_id`,`level`,`ratedlevel`,`conversations`  FROM `known_languages` WHERE `login`='$login'";
         $sth = $dbh->prepare($query);
         $sth->execute();
           
         while($row = $sth->fetch(PDO::FETCH_ASSOC)){   
             $langue = idtolangue($row['language_id']);
-            echo $langue. " : Level ".$row['level']. "<br>"; 
+            echo "<u>".$langue. "</u>: <br> ";
+            if ($self==true){
+                echo "You rated yourself level ".$row['level']. "<br>"; 
+                if ($row['conversations']!=0){
+                    echo "After ".$row['conversations']." conversations, others rated you level ".$row['ratedlevel']. "<br><br>"; 
+                } else {echo "You haven't had any conversations in ".$langue." yet!<br><br>";}
+            } else {
+                echo $login." rated him/herself level ".$row['level']. "<br>"; 
+                if ($row['conversations']!=0){
+                    echo "After ".$row['conversations']." conversations, others rated him/her level ".$row['ratedlevel']. "<br><br>"; 
+                } else {echo "He/She hasn't had any conversations in ".$langue." yet!<br><br>";}
+            }
         }
           
         $dbh = null;    
@@ -243,7 +276,7 @@ class Utilisateur {
             $sth2->execute();
             while($row2 = $sth2->fetch(PDO::FETCH_ASSOC)){   
                 $aux = idtolangue($row2['language_id']);
-                
+
                 echo "<input type=\"radio\" name=\"language\"  id=\"language\" value=\"".$aux."\">".PHP_EOL; 
                 echo "<label for=\"language\">" .$aux. "</label>".PHP_EOL;
             }

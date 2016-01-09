@@ -21,7 +21,7 @@
                 //to do: ADD OPTION TO EDIT THIS INFO
                 
                 echo "<p class='text-left'><b>Your languages:</b><br>";
-                showLanguages($_SESSION["loggedIn"]);
+                showLanguages($_SESSION["loggedIn"], true);
                 echo "</p>";
             ?>
             <p><a href="?page=languages"> Manage your spoken languages </a></p>

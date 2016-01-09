@@ -13,10 +13,39 @@
             <div class="jumbotron">
                 <div class="container">
                     <h1 style="text-align:center">Rate <?php echo $altuser['name'] ?>'s Language Skills!</h1>
+
                 </div>
             </div>
         </div>
     </header>
+    
+    <?php
+        require_once("utilities/userfunctions.php");
+        $languageErr=$levelErr="Required";
+        $language=$ratelevel="";
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            if (empty($_POST["language"])) {
+              $languageErr = "Language is required";
+             }else{
+                  $language=$_POST['language'];
+                  $languageErr="";
+              }
+
+
+            if (empty($_POST["ratelevel"])) {
+              $levelErr = "Level is required";
+            } else {
+                $ratelevel=$_POST['ratelevel'];
+                $levelErr="";
+            }
+        }
+
+        if($languageErr==""&&$levelErr==""){
+            rateLanguage($altuserlogin, $ratelevel, $language);
+            echo "You rated ".$altuser['name']."'s ".$_POST["language"]." with a level of ".$_POST["ratelevel"]."<br>";
+        }
+        
+        ?>
     
     <div class="row">
         <div class="col-md-8 col-md-offset-2 aboutus">                         
@@ -26,19 +55,20 @@
                 echo "<b>Email: </b>".$altuser['email']."<br>";
                 
                 echo "<p class='text-left'><b>His/her languages:</b><br>";
-                showLanguages($altuser['login']);
+                showLanguages($altuser['login'], false);
                 echo "</p>";
                 
-                //rating system
-                echo "<b>".$altuser['name']." and you spoke in this language: </b><br>";
-                findsimilarlangues($_SESSION["loggedIn"],$altuserlogin);
                 ?>
 
-                <form action="index.php?page=languages" role="form" method="post">
+                <form action="index.php?page=rateuser&altuser=<?php echo $altuserlogin ?>" role="form" method="post">
                 <div class="form-group">
+                    <?php
+                    echo "<b><label for=\"language\">".$altuser['name']." and you spoke in this language: </b></label><br>";
+                    findsimilarlangues($_SESSION["loggedIn"],$altuserlogin);
+                    ?>
                 <div class="form-group">
-                  <label for="level">Rate <?php echo $altuser['name']?>'s Level:</label>
-                  <input type="number" name="level" class="form-control" id="level" min="1" max="100" value="<?php echo $level;?>">
+                  <label for="ratelevel">Rate <?php echo $altuser['name']?>'s Level:</label>
+                  <input type="number" name="ratelevel" class="form-control" id="ratelevel" min="1" max="100">
                 </div>
                 <button type="submit" class="btn btn-default">Submit</button>
                 </div>

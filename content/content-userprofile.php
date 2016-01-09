@@ -26,7 +26,7 @@
                 echo "<b>Email: </b>".$altuser['email']."<br>";
                 
                 echo "<p class='text-left'><b>His/her languages:</b><br>";
-                showLanguages($altuser['login']);
+                showLanguages($altuser['login'],false);
                 echo "</p>";
             ?>
             <script src="https://apis.google.com/js/platform.js" async defer></script>

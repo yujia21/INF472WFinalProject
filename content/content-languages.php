@@ -21,23 +21,23 @@
             $languageErr=$levelErr="Required";
             $language=$level="";
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  if (empty($_POST["language"])) {
-    $languageErr = "Language is required";
-   }else{
-        $language=$_POST['language'];
-        $languageErr="";
-    }
-   
-  
-  if (empty($_POST["level"])) {
-    $levelErr = "Level is required";
-  } else {
-      $level=$_POST['level'];
-      $levelErr="";
-    /*if ($level<1 || $level>100) {
-      $levelErr = "Level must be a value between 1 and 100"; 
-    }*/
-  }
+                if (empty($_POST["language"])) {
+                  $languageErr = "Language is required";
+                 }else{
+                      $language=$_POST['language'];
+                      $languageErr="";
+                  }
+
+
+                if (empty($_POST["level"])) {
+                  $levelErr = "Level is required";
+                } else {
+                    $level=$_POST['level'];
+                    $levelErr="";
+                  /*if ($level<1 || $level>100) {
+                    $levelErr = "Level must be a value between 1 and 100"; 
+                  }*/
+                }
             }
             
             if($languageErr==""&&$levelErr==""){
