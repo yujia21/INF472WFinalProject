@@ -158,7 +158,7 @@ class Utilisateur {
         while($row = $sth->fetch(PDO::FETCH_ASSOC)){
             $language = idtolangue($row['language_id']);
             if ($row['login1'] != null){
-                echo "<p>".$row['login1']." rated your level of ".$language." as ".$row['ratedlevel'].".";
+                echo "<p>".$row['login1']." rated your ".$language." language abilities!";
                 echo "<input type=\"hidden\" name =\"login1\" id =\"login1\" value=\"".$row['login1']."\">";
                 echo "<input type=\"hidden\" name =\"login2\" id =\"login2\" value=\"".$row['login2']."\">";
                 echo "<input type=\"hidden\" name =\"language\" id =\"language\" value=\"".$language."\">";
