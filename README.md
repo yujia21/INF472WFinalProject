@@ -1,17 +1,21 @@
 # modalweb
 To do : 
 
-Javascript for translations of different languages?
-
 Allow users to edit profile information (add photos? add social media accounts?)
 
-Chatroom
+Chatroom : Start a conversation leads to chatroom page with one specific person. Messages lists all your messages, on clicking leads to specific people. 
 
-Rating system
+Allow debuttants to be able to speak with higher level people? Or only with those of their level?
 
-Javascript slider for rating
+Rating system - only can rate those with whom you've spoken to.
 
-Show map of places in the world you can go to with the languages you speak (animated)
+Securize profile viewing of others
+
+Javascript slider for rating - to use or not?
+
+Show map of places in the world you can go to with the languages you speak? (animated)
+
+Javascript for translations of different languages?
 
 
 Commencez par créer une nouvelle table pour stocker les messages. N'oubliez pas les informations suivantes : expéditeur, destinataire et date.
