@@ -13,40 +13,39 @@
             <div class="jumbotron">
                 <div class="container">
                     <h1 style="text-align:center">Rate <?php echo $altuser['name'] ?>'s Language Skills!</h1>
+                    <?php
+                        require_once("utilities/userfunctions.php");
+                        $languageErr=$levelErr="Required";
+                        $language=$ratelevel="";
+                        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                            if (empty($_POST["language"])) {
+                              $languageErr = "Language is required";
+                             }else{
+                                  $language=$_POST['language'];
+                                  $languageErr="";
+                              }
 
+
+                            if (empty($_POST["ratelevel"])) {
+                              $levelErr = "Level is required";
+                            } else {
+                                $ratelevel=$_POST['ratelevel'];
+                                $levelErr="";
+                            }
+                        }
+
+                        if($languageErr==""&&$levelErr==""){
+                            rateRequest($_SESSION["loggedIn"],$altuserlogin, $ratelevel, $language);
+                            echo "You rated ".$altuser['name']."'s ".$_POST["language"]." with a level of ".$_POST["ratelevel"].". This awaits his/her approval.<br>";
+                        }
+
+                    ?>
                 </div>
             </div>
         </div>
     </header>
     
-    <?php
-        require_once("utilities/userfunctions.php");
-        $languageErr=$levelErr="Required";
-        $language=$ratelevel="";
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            if (empty($_POST["language"])) {
-              $languageErr = "Language is required";
-             }else{
-                  $language=$_POST['language'];
-                  $languageErr="";
-              }
-
-
-            if (empty($_POST["ratelevel"])) {
-              $levelErr = "Level is required";
-            } else {
-                $ratelevel=$_POST['ratelevel'];
-                $levelErr="";
-            }
-        }
-
-        if($languageErr==""&&$levelErr==""){
-            rateRequest($_SESSION["loggedIn"],$altuserlogin, $ratelevel, $language);
-            echo "You rated ".$altuser['name']."'s ".$_POST["language"]." with a level of ".$_POST["ratelevel"].". This awaits his/her approval.<br>";
-        }
-        
-        ?>
-    
+   
     <div class="row">
         <div class="col-md-8 col-md-offset-2 aboutus">                         
             <?php 

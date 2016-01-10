@@ -143,6 +143,14 @@ class Utilisateur {
     function rateRequest($login1,$login2,$ratedlevel,$language){
         $id = languetoid($language);
         $dbh = Database::connect();
+        $sth = $dbh->prepare("SELECT * FROM `rating_requests` WHERE  `login1`='$login1' AND `login2`='$login2' AND `language_id`='$id'");
+        $sth->execute();    
+        if($sth->fetch(PDO::FETCH_ASSOC)){
+            echo "You have already rated $login2's $language ability, your score for $login2 will be updated! <br>";
+            $sth = $dbh->prepare("DELETE FROM `rating_requests` WHERE (`login1`, `login2`,`language_id`)=(?,?,?)");
+            $sth->execute(array($login1,$login2,$id));
+        }
+        // TO ADD : WHAT HAPPENS IF SAME USER TRIES TO RATE USER2 FOR SAME LANGUAGE : UPDATES
         $sth = $dbh->prepare("INSERT INTO `rating_requests` (`login1`, `login2`,`language_id`,`ratedlevel`) VALUES(?,?,?,?)");
         $sth->execute(array($login1,$login2,$id,$ratedlevel));
         $dbh = null; // Déconnexion de MySQL

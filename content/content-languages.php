@@ -14,6 +14,40 @@
                 <div class="container">
                     <h1 style="text-align:center">Languages</h1>
                     <p class="text-center">Here you can manage your languages</p>
+                    
+                    <?php
+                        require_once("utilities/userfunctions.php");
+                        $languageErr=$levelErr="Required";
+                        $language=$level="";
+                        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                            if (empty($_POST["language"])) {
+                              $languageErr = "Language is required";
+                             }else{
+                                  $language=$_POST['language'];
+                                  $languageErr="";
+                              }
+
+
+                            if (empty($_POST["level"])) {
+                              $levelErr = "Level is required";
+                            } else {
+                                $level=$_POST['level'];
+                                $levelErr="";
+                              /*if ($level<1 || $level>100) {
+                                $levelErr = "Level must be a value between 1 and 100"; 
+                              }*/
+                            }
+                        }
+
+                        if($languageErr==""&&$levelErr==""){
+                            if (languageExists($_SESSION["loggedIn"], $language)){
+                                updateLanguage($_SESSION["loggedIn"], $level, $language);
+                            }else{
+                                addLanguage($_SESSION["loggedIn"], $level, $language);
+                            }
+                            echo "You have updated your ".$language." level to be ".$level."! <br>";
+                        }
+                    ?>
                 </div>
             </div>
         </div>
@@ -24,39 +58,7 @@
 </div>
 
 
-            <?php
-            require_once("utilities/userfunctions.php");
-            $languageErr=$levelErr="Required";
-            $language=$level="";
-            if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                if (empty($_POST["language"])) {
-                  $languageErr = "Language is required";
-                 }else{
-                      $language=$_POST['language'];
-                      $languageErr="";
-                  }
 
-
-                if (empty($_POST["level"])) {
-                  $levelErr = "Level is required";
-                } else {
-                    $level=$_POST['level'];
-                    $levelErr="";
-                  /*if ($level<1 || $level>100) {
-                    $levelErr = "Level must be a value between 1 and 100"; 
-                  }*/
-                }
-            }
-            
-            if($languageErr==""&&$levelErr==""){
-                if (languageExists($_SESSION["loggedIn"], $language)){
-                    updateLanguage($_SESSION["loggedIn"], $level, $language);
-                }else{
-                    addLanguage($_SESSION["loggedIn"], $level, $language);
-                }
-                echo "You have updated your ".$language." level to be ".$level."! <br>";
-            }
-            ?>
             <div class="row">
         <div class="col-md-8 col-md-offset-2 aboutus"> 
             <form action="index.php?page=languages" role="form" method="post">
