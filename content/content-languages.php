@@ -1,5 +1,13 @@
 <div class="container-fluid">
     <header>
+        <script type="text/javascript">
+        function updateTextInput(val) {
+          document.getElementById('textInput').value=val; 
+        }
+        function updateSliderInput(val) {
+          document.getElementById('level').value=val; 
+        }
+      </script>
         
         <div class="row">
             <div class="jumbotron">
@@ -46,29 +54,28 @@
                 }else{
                     addLanguage($_SESSION["loggedIn"], $level, $language);
                 }
-                echo "Operation Successful!<br>";
+                echo "You have updated your ".$language." level to be ".$level."! <br>";
             }
             ?>
             <div class="row">
         <div class="col-md-8 col-md-offset-2 aboutus"> 
-            <p><span class="error">* required field.</span></p>
             <form action="index.php?page=languages" role="form" method="post">
             <div class="form-group">
-              <label for="language">Language:</label>
-              <?php languageForm(); ?><br>
-              <span class="error">* <?php echo $languageErr;?></span>
+                <center><label for="language">Language:</label><br>
+              <?php languageForm(); ?><br></center>
+              <span class="error"><?php echo $languageErr;?></span>
    <br><br>
             </div>
             <div class="form-group">
                 
               
-              <label for="level">Level:</label>
-              <input type="range" data-popup-enabled="true" name="level" class="form-control" id="level" value="<?php echo $level;?>" min="1" max="100">
+                <center><label for="level">Level:</label>
+                    <!--updateSlider doesn't work-->
+              <input type="text" id="textInput" value="" onchange="updateSliderInput(this.value);"></center>
+              <input type="range" data-popup-enabled="true" name="level" class="form-control" id="level" value="" min="1" max="100"  onchange="updateTextInput(this.value);">
               
-                
-              <label for="level">Level:</label>
-              <input type="number" name="level" class="form-control" id="level" min="1" max="100" value="<?php echo $level;?>">
-              <span class="error">* <?php echo $levelErr;?></span>
+
+              <span class="error"><?php echo $levelErr;?></span>
    <br><br>
             </div>
             <button type="submit" class="btn btn-default">Submit</button>

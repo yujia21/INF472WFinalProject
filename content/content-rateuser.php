@@ -41,8 +41,8 @@
         }
 
         if($languageErr==""&&$levelErr==""){
-            rateLanguage($altuserlogin, $ratelevel, $language);
-            echo "You rated ".$altuser['name']."'s ".$_POST["language"]." with a level of ".$_POST["ratelevel"]."<br>";
+            rateRequest($_SESSION["loggedIn"],$altuserlogin, $ratelevel, $language);
+            echo "You rated ".$altuser['name']."'s ".$_POST["language"]." with a level of ".$_POST["ratelevel"].". This awaits his/her approval.<br>";
         }
         
         ?>
