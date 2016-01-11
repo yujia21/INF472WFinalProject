@@ -36,7 +36,8 @@
             </g:hangout>
             <p>
             <?php 
-                echo "<a href='index.php?page=rateuser&altuser=$altuserlogin'>Rate ".$altuser['name']."s language skills!'</a>";
+                echo "<a href='index.php?page=chatroom&altuser=$altuserlogin'>Chat with ".$altuser['name']."<br></a>";
+                echo "<a href='index.php?page=rateuser&altuser=$altuserlogin'>Rate ".$altuser['name']."'s language skills</a>";
             ?>
             </p>
         </div>

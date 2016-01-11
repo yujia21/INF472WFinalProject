@@ -332,5 +332,74 @@ class Utilisateur {
         $dbh=null;
         }
     }
-
+    
+    function showmessages($login){
+        $dbh=Database::connect();
+        $query= "SELECT *  FROM `chatroom` WHERE `login1`='$login' OR `login2`='$login'";
+        $sth = $dbh->prepare($query);
+        $sth->execute();
+        $n=0;
+        while($row = $sth->fetch(PDO::FETCH_ASSOC)){
+            if ($n ==0){
+                echo "<table style=\"width:100%\">";
+                echo "<tr><td><b>from: </b></td>";
+                echo "<td><b>to: </b></td>";
+                echo "<td><b>date: </b></td>";
+                echo "<td><b>message: </b></td>";
+            }
+            if ($row["login1"]==$login){
+                $login2=$row["login2"];
+                echo "<tr><td>".$row['login1']."</td>";
+                echo "<td><a href=\"index.php?page=chatroom&altuser=$login2\">".$row['login2']."</a></td>"; //make this a link to send
+                echo "<td>".$row['date']."</td>"; //arrange by date?
+                echo "<td>".$row['message']."</td></tr>";
+            } else {
+                $login1=$row["login1"];
+                echo "<tr><td><a href=\"index.php?page=chatroom&altuser=$login1\">".$row['login1']."</a></td>"; //make this a link to send
+                echo "<td>".$row['login2']."</td>";
+                echo "<td>".$row['date']."</td>"; //arrange by date?
+                echo "<td>".$row['message']."</td></tr>";
+            }
+            $n=$n+1;
+        }
+        if ($n!=0){
+            echo "</table>";
+        }
+        echo "You have $n message(s)!";
+    }
+    
+    function showconversation($login1,$login2){
+        $dbh=Database::connect();
+        $query= "SELECT *  FROM `chatroom` WHERE (`login1`='$login1' AND `login2`='$login2') OR (`login1`='$login2' AND `login2`='$login1') ";
+        $sth = $dbh->prepare($query);
+        $sth->execute();
+        $n=0;
+        while($row = $sth->fetch(PDO::FETCH_ASSOC)){
+            if ($n ==0){
+                echo "<table style=\"width:100%\">";
+                echo "<tr><td><b>from: </b></td>";
+                echo "<td><b>to: </b></td>";
+                echo "<td><b>date: </b></td>";
+                echo "<td><b>message: </b></td>";
+            }
+            echo "<tr><td>".$row['login1']."</td>";
+            echo "<td>".$row['login2']."</td>"; 
+            echo "<td>".$row['date']."</td>"; //arrange by date?
+            echo "<td>".$row['message']."</td></tr>";
+            $n=$n+1;
+        }
+        if ($n!=0){
+            echo "</table>";
+        }
+        echo "You have $n message(s)!";
+    }
+    
+    function sendmessage($login1,$login2,$message){
+        $date = date ("Y-m-d H:i:s", time()); 
+        $dbh=Database::connect();
+        $query ="INSERT INTO `chatroom` (`login1`, `login2`, `date`, `message`) VALUES (?,?,?,?)";
+        $sth = $dbh->prepare($query);
+        $sth->execute(array($login1,$login2,$date,$message));
+        echo "Your message is sent at $date!<br>";
+    }
 ?>

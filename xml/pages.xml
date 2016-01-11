@@ -80,4 +80,10 @@
         <showmenu>true</showmenu>
         </page>
         
+        <page>
+        <name>chatroom</name>
+        <title>Chatroom</title>
+        <member>true</member>
+        </page>
+        
 </pages>

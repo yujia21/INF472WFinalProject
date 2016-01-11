@@ -48,7 +48,8 @@
             ?>
             </form>
             <h2><b>Messages</b></h2>
-            <!-- TO DO -->
+            <?php showmessages($login); 
+            ?>
         </div>
     </div>    
     
