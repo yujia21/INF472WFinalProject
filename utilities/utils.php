@@ -73,7 +73,7 @@ echo <<<FINMENU
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">BRAND NAME</a>
+            <a class="navbar-brand" href="#">POLYGLOT</a>
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">

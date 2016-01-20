@@ -227,7 +227,7 @@ class Utilisateur {
             $sth->execute(array($login1,$login2,$id));
         }
         // TO ADD : WHAT HAPPENS IF SAME USER TRIES TO RATE USER2 FOR SAME LANGUAGE : UPDATES
-        $sth = $dbh->prepare("UPDATE `rating_requests` SET (`login1`, `login2`,`language_id`,`ratedlevel`) = (?,?,?,?)");
+        $sth = $dbh->prepare("INSERT INTO `rating_requests` (`login1`, `login2`,`language_id`,`ratedlevel`) VALUES(?,?,?,?)");
         $sth->execute(array($login1,$login2,$id,$ratedlevel));
         $dbh = null; // Déconnexion de MySQL
         //login1 is the rater, login2 is rated
@@ -246,8 +246,8 @@ class Utilisateur {
                 echo "<input type=\"hidden\" name =\"login2\" id =\"login2\" value=\"".$row['login2']."\">";
                 echo "<input type=\"hidden\" name =\"language\" id =\"language\" value=\"".$language."\">";
                 echo "<input type=\"hidden\" name =\"ratedlevel\" id =\"ratedlevel\" value=\"".$row['ratedlevel']."\">";
-                echo "<button type=\"submit\" name =\"validrequest\" id =\"validrequest\" value=\"Accept\">Accept</button>";
-                echo "<button type=\"submit\" name =\"validrequest\" id =\"validrequest\" value=\"Reject\">Reject</button></p>"; //how to submit all data from row
+                echo "  <button type=\"submit\" name =\"validrequest\" id =\"validrequest\" value=\"Accept\">&#10004;</button>";
+                echo "  <button type=\"submit\" name =\"validrequest\" id =\"validrequest\" value=\"Reject\">&#10008;</button></p>"; //how to submit all data from row
             }
         }
         $dbh=null;

@@ -134,6 +134,14 @@ input[type=range]:focus::-ms-fill-upper {
   background: #367ebd;
 }
 
+button[type=submit] {
+    border-radius: 5px;
+    border: 0;
+    width: 25px;
+    height:25px;
+    background: #00cacc;
+}
+
 a.back-to-top {
 	display: none;
 	width: 60px;
