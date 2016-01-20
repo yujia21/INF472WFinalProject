@@ -4,18 +4,15 @@
         if(isset($_GET['altuser'])){
             $login=$_SESSION["loggedIn"];
             $altuserlogin=$_GET['altuser']; //securize this
-            $altuser = Utilisateur::getUtilisateur($altuserlogin);
-        }
-        else {
-            $altuserlogin=$_SESSION["loggedIn"];}
-            $altuser = Utilisateur::getUtilisateur($altuserlogin);
-        ?>
-        <div class="row">
-            <div class="jumbotron">
-                <div class="container">
-                    <h1 style="text-align:center">Chat with <?php echo $altuser['name'] ?>!</h1>
-                    <?php
-                        require_once("utilities/userfunctions.php");
+            $authorized = Utilisateur::LoginExists($altuserlogin);
+            if ($authorized){
+                $altuser = Utilisateur::getUtilisateur($altuserlogin);
+                $name = $altuser['name'];
+        echo "<div class=\"row\">";
+            echo "<div class=\"jumbotron\">";
+                echo "<div class=\"container\">";
+                    echo "<h1 style=\"text-align:center\">Chat with $name !</h1>";
+
                         $messageErr="Required";
                         $message="";
                         if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -31,16 +28,52 @@
                             sendmessage($login,$altuserlogin,$message);
                         }
 
-                    ?>
-                </div>
+                    
+                echo <<<START
+                        </div>;
             </div>
         </div>
     </header>
+START
+    ;} else {
+            $authorized=false;
+            echo <<<START
+                <div class="row">
+                    <div class="jumbotron">
+                        <div class="container">
+START
+            ;
+                            echo "<h1 style=\"text-align:center\">Error! ".$_GET['altuser']." does not exist! </h1>";
+            echo <<<START
+                        </div>
+                    </div>
+                </div>
+START
+        ;}
+    }
+        else {
+            $authorized=false;
+            echo <<<START
+                <div class="row">
+                    <div class="jumbotron">
+                        <div class="container">
+                            <h1 style=\"text-align:center\">Error! </h1>;
+                        </div>
+                    </div>
+                </div>
+START
+        ;}
+        ?>
     
    
     <div class="row">
-        <div class="col-md-8 col-md-offset-2 aboutus">                         
-            <form action="index.php?page=chatroom&altuser=<?php echo $altuserlogin ?>" role="form" method="post">
+        <div class="col-md-8 col-md-offset-2 aboutus">     
+            <?php 
+            if ($authorized){
+                showconversation($login,$altuserlogin);
+            
+            echo "<form action=\"index.php?page=chatroom&altuser=$altuserlogin\" role=\"form\" method=\"post\">";
+            echo <<<START
             <div class="form-group">
             <div class="form-group">
               <label for="message">Your Message</label>
@@ -48,9 +81,10 @@
             </div>
             <button type="submit" class="btn btn-default">Submit</button>
             </div>
-                
-            <?php 
-                showconversation($login,$altuserlogin);
+START
+            ;} else {
+                echo "<h2>Sorry! This is a bad link!</h2>";
+            }
             ?>
         </div>
     </div>    

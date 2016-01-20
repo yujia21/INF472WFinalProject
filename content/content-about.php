@@ -11,9 +11,10 @@
     
     <div class="row">
         <div class="col-md-8 col-md-offset-2 aboutus">                         
-            <h1>Who we are</h1><br> <!--update to show all admin?-->
-            Renan<br>
-            Yu Jia<br>
+            <h1>We are Renan and Yu Jia...</h1>
+            <p>Two students at Ecole Polytechnique, from the class INF472W. </p>
+            <p>Renan is from Brazil.</p>
+            <p>Yu Jia is from Singapore.</p>
         </div>
     </div>
 </div>

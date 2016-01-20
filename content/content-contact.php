@@ -1,7 +1,9 @@
 <div class="container-fluid">
     <header>
         <?php require_once("utilities/userfunctions.php");
+        if (ISSET($_SESSION["loggedIn"])){
             $user = Utilisateur::getUtilisateur($_SESSION["loggedIn"]);
+        }
         ?>
         <div class="row">
             <div class="jumbotron">
@@ -21,9 +23,9 @@
                 <form  action="" method="POST" enctype="multipart/form-data"> 
                 <input type="hidden" name="action" value="submit"> 
                 Your name:<br> 
-                <input name="name" type="text" value="<?php echo $user['name']." ".$user['lastname']; ?>" size="30"/><br> 
+                <input name="name" type="text" value="<?php if (ISSET($_SESSION["loggedIn"])){echo $user['name']." ".$user['lastname'];} ?>" size="30"/><br> 
                 Your email:<br> 
-                <input name="email" type="text" value="<?php echo $user['email'];?>" size="30"/><br> 
+                <input name="email" type="text" value="<?php if (ISSET($_SESSION["loggedIn"])){echo  $user['email'];} ?>" size="30"/><br> 
                 Your message:<br> 
                 <textarea name="message" rows="7" cols="30"></textarea><br> 
                 <input type="submit" value="Send email"/> 

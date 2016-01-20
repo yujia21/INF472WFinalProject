@@ -38,8 +38,8 @@ require_once("utilities/userfunctions.php");
             else {
                 echo <<<FIN
                 <div class="row jumbotron container">
-                    <h1 style="text-align:center">ERREUR</h1>
-                    <p class="text-center">Désolé, la page demandée n'existe pas ou n'est accessible qu'aux membres ! </p>
+                    <h1 style="text-align:center">ERROR</h1>
+                    <p class="text-center">Sorry, this page is only for members ! </p>
                 </div>
 FIN;
                 }
@@ -50,6 +50,29 @@ FIN;
         <script src="js/jquery.js"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="js/bootstrap.js"></script>
+
+<script type="text/javascript">
+// create the back to top button
+$('body').prepend('<a href="#" class="back-to-top">Back to Top</a>');
+
+var amountScrolled = 300;
+
+$(window).scroll(function() {
+	if ( $(window).scrollTop() > amountScrolled ) {
+		$('a.back-to-top').fadeIn('slow');
+	} else {
+		$('a.back-to-top').fadeOut('slow');
+	}
+});
+
+$('a.back-to-top, a.simple-back-to-top').click(function() {
+	$('html, body').animate({
+		scrollTop: 0
+	}, 700);
+	return false;
+});
+</script>
+
     </body>
     <?php require_once('utilities/utils.php');
     generateHTMLFooter();

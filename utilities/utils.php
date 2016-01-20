@@ -31,14 +31,8 @@ FINFOOTER;
 function checkPage($askedPage){
     $pages = simplexml_load_file("xml/pages.xml");
     $page_list = $pages->page;
-    $languages = simplexml_load_file("xml/languagelist.xml");
-    $language_list = $languages->language;
-    
     foreach($page_list as $page){
         if ($askedPage==$page->name){return true;}
-    }
-    foreach($language_list as $language){
-        if ($askedPage==$language->name & $language->haspage=="true"){return true;}
     }
     return false;
 }
@@ -60,23 +54,15 @@ function checkMember($askedPage){
 function getPageTitle($pagename){
     $pages = simplexml_load_file("xml/pages.xml");
     $page_list = $pages->page;
-    $languages = simplexml_load_file("xml/languagelist.xml");
-    $language_list = $languages->language;  
   
     foreach($page_list as $page){
         if ($pagename==$page->name){return $page->title;}
-    }
-    foreach($language_list as $language){
-        if ($pagename==$language->name & $language->haspage=="true"){return $language->title;}
     }
 }
 
 function generateMenu(){
     $pages = simplexml_load_file("xml/pages.xml");
     $page_list = $pages->page;
-
-    $languages = simplexml_load_file("xml/languagelist.xml");
-    $language_list = $languages->language;
 
 echo <<<FINMENU
     <div class="container">
@@ -94,7 +80,7 @@ echo <<<FINMENU
             <ul class="nav navbar-nav">
 FINMENU;
 foreach($page_list as $page){
-    if ($page->showmenu=="true"){
+    if ($page->showmenu=="true" & $page->member!="true"){
         global $askedPage;
         if ($askedPage==$page->name){
             echo "<li class=\"active\"><a href=\"/INF472WFinalProject/index.php?page=$page->name\">$page->menutitle</a></li>";
@@ -148,6 +134,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 if(!isset($_SESSION["loggedIn"])){
+
 echo <<<notIn
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -171,7 +158,28 @@ echo <<<notIn
 notIn;
    } else{
        $aux=$_SESSION['loggedIn'];
-       
+$n_messages = countnewmessages($aux);
+$n_requests = countrequests($aux);
+$n = $n_messages+$n_requests;
+foreach($page_list as $page){
+    if ($page->showmenu=="true" & $page->member=="true"){
+        if ($page->name=="notifications"){
+            global $askedPage;
+            if ($askedPage==$page->name){
+                echo "<li class=\"active\"><a href=\"/INF472WFinalProject/index.php?page=$page->name\">$page->menutitle ($n)</a></li>";
+            }
+            else {echo "<li><a href=\"/INF472WFinalProject/index.php?page=$page->name\">$page->menutitle ($n)</a></li>";}
+            }
+            
+        else {
+            global $askedPage;
+            if ($askedPage==$page->name){
+                echo "<li class=\"active\"><a href=\"/INF472WFinalProject/index.php?page=$page->name\">$page->menutitle</a></li>";
+            }
+            else {echo "<li><a href=\"/INF472WFinalProject/index.php?page=$page->name\">$page->menutitle</a></li>";}
+            }
+        }
+    }
 echo <<<IN
             </ul>
             <ul class="nav navbar-nav navbar-right">

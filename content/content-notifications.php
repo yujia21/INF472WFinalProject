@@ -3,9 +3,15 @@
         <div class="row">
             <div class="jumbotron">
                 <div class="container">
-                    <h1 style="text-align:center">Messages and Requests</h1>
+
                     <?php
                         require_once("utilities/userfunctions.php");
+                        $login=$_SESSION["loggedIn"];
+                        $n_messages = countnewmessages($login);
+                        $n_requests = countrequests($login);
+                        
+                        echo "<h1 style=\"text-align:center\">Messages (".$n_messages.") and Requests (".$n_requests.")</h1>";
+
                         $validErr="Required";
                         $validrequest="";
                         if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -40,15 +46,17 @@
     
     <div class="row">
         <div class="col-md-8 col-md-offset-2 aboutus">                         
-            <h2><b>Ratings</b></h2>
+            <?php 
+            echo "<h2><b>Ratings (".$n_requests." new)</b></h2>";
+            ?>
             <form action="index.php?page=notifications" role="form" method="post">
             <?php require_once("utilities/userfunctions.php");
-                $login=$_SESSION["loggedIn"];
                 showrateRequests($login);
             ?>
             </form>
-            <h2><b>Messages</b></h2>
-            <?php showmessages($login); 
+            <?php 
+            echo "<h2><b>Messages (".$n_messages." new)</b></h2>";
+            showmessages($login); 
             ?>
         </div>
     </div>    
