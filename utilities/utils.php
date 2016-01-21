@@ -1,4 +1,6 @@
 <?php
+require_once("utilities/userfunctions.php");
+
 function generateHTMLHeader($titre,$CSS){
     echo <<<FINHEADER
     <meta charset="utf-8">
@@ -88,10 +90,7 @@ foreach($page_list as $page){
         else {echo "<li><a href=\"/INF472WFinalProject/index.php?page=$page->name\">$page->menutitle</a></li>";}
     }
 }
-?>
 
-    <?php
-    require_once("utilities/userfunctions.php");
 // define variables and set to empty values
 $loginErr = $pwdErr = "";
 $login = $pwd = "";
@@ -122,6 +121,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               $pwdErr="Password incorrect";
           }               
       }
+      
+      //REMEMBER ME  - not sure if works always?
+      if (isset($_POST['remember'])) {
+          if ($_POST['remember']){
+            $year = time() + 31536000;
+            setcookie('remember_me', $login, $year);
+          } else{
+                if(isset($_COOKIE['remember_me'])) {
+                    $past = time() - 100;
+                    setcookie('remember_me', "", $past);
+                }
+          }
+      }
+      else{
+	if(isset($_COOKIE['remember_me'])) {
+            $past = time() - 100;
+            setcookie('remember_me', "", $past);
+	}
+}
   }
   
   if($loginErr=="" && $pwdErr ==""){
@@ -134,7 +152,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 if(!isset($_SESSION["loggedIn"])){
-
 echo <<<notIn
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -142,11 +159,24 @@ echo <<<notIn
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true">Log In<span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <form class="form-signin" action="?page=profile" method="post">
-                        <p><input type="text" class="form-control" placeholder="Login" name="login" id="login" required autofocus></p>
+notIn;
+if (isset($_COOKIE['remember_me'])){
+                        echo "<p><input type=\"text\" class=\"form-control\" placeholder=\"Login\" name=\"login\" id=\"login\" value = \"".$_COOKIE['remember_me']."\" required autofocus></p>";
+} else {
+                       echo "<p><input type=\"text\" class=\"form-control\" placeholder=\"Login\" name=\"login\" id=\"login\" required autofocus></p>";
+}
+echo <<<notIn
                         <span class="error"><?php echo .$loginErr.;?></span>
                         <p><input type="password" class="form-control" placeholder="Password" name="pwd" id="pwd" required></p>
                         <span class="error"><?php echo .$pwdErr.;?></span>
-                        <p><input type="checkbox" name="remember" value="remember" />Remember me</p>
+notIn;
+if (isset($_COOKIE['remember_me'])){
+                        echo "<p><input type=\"checkbox\" name=\"remember\" value=\"1\" checked=\"checked\"/>Remember me</p>";
+}
+else {
+                        echo "<p><input type=\"checkbox\" name=\"remember\" value=\"1\"/>Remember me</p>";
+}
+echo <<<notIn
                         <p><button type="submit" class="btn btn-default" />Submit</p>
                         </form>                 
                 </ul>

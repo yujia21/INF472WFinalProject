@@ -134,7 +134,7 @@ input[type=range]:focus::-ms-fill-upper {
   background: #367ebd;
 }
 
-button[type=submit] {
+button[type=submit][name = "validrequest"] {
     border-radius: 5px;
     border: 0;
     width: 25px;
