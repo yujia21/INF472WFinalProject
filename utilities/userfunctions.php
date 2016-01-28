@@ -85,7 +85,7 @@ class Utilisateur {
         $dbh = null; // Déconnexion de MySQL
     }
     
-    function deleteUser($user,$dbh){
+    function deleteUser($user){
         $query = "DELETE FROM `utilisateurs` WHERE `login`='$user'";
         $sth = $dbh->prepare($query);
         $sth->execute();
@@ -99,6 +99,14 @@ class Utilisateur {
         $sth = $dbh->prepare("INSERT INTO `utilisateurs` (`login`, `password`, `name`, `lastname`, `birthdate`, `email`) VALUES(?,SHA1(?),?,?,?,?)");
         $sth->execute(array($_POST['login'],$_POST['pwd'],$_POST['name'],$_POST['lname'],$_POST['bdate'],$_POST['email']));
  
+        $dbh = null; // Déconnexion de MySQL
+    }
+    
+    function updating($login){
+        $dbh = Database::connect();
+        $sth = $dbh->prepare("UPDATE `utilisateurs` SET `login` = ?, `password`=SHA1(?), `name`=?, `lastname`=?, `birthdate`=?, `email`=? WHERE `login` = '$login'");
+        $sth->execute(array($_POST['login'],$_POST['pwd'],$_POST['name'],$_POST['lname'],$_POST['bdate'],$_POST['email']));
+        echo "Updated profile!";
         $dbh = null; // Déconnexion de MySQL
     }
     

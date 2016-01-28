@@ -18,7 +18,7 @@
                 echo "<b>Login: </b>".$user['login']."<br>";
                 echo "<b>Email: </b>".$user['email']."<br>";
                 echo "<b>Birthdate: </b>".$user['birthdate']."<br></p>";
-                //to do: ADD OPTION TO EDIT THIS INFO
+                echo "<p><a href=\"?page=editprofile\"> Edit your personal details </a></p>";
                 
                 echo "<p class='text-left'><b>Your languages:</b><br>";
                 showLanguages($_SESSION["loggedIn"], true);

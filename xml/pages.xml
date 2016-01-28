@@ -27,14 +27,14 @@
     
     <page>
         <name>profile</name>
-        <menutitle>Your Profile</menutitle>
+        <menutitle>Profile</menutitle>
         <title>Your Profile</title>
         <member>true</member>
         <showmenu>true</showmenu>
     </page>
     <page>
         <name>convo</name>
-        <menutitle>Start a Conversation</menutitle>
+        <menutitle>Conversations</menutitle>
         <title>Start a Conversation</title>
         <showmenu>true</showmenu>
         <member>true</member>
@@ -45,6 +45,12 @@
         <name>regis</name>
         <menutitle>Register</menutitle>
         <title>Register</title>
+    </page>
+    
+    <page>
+        <name>editprofile</name>
+        <title>Edit Profile</title>
+        <member>true</member>
     </page>
     
         <page>
@@ -74,7 +80,7 @@
         
         <page>
         <name>notifications</name>
-        <menutitle>Messages and Requests</menutitle>
+        <menutitle>Notifications</menutitle>
         <title>Messages and Requests</title>
         <member>true</member>
         <showmenu>true</showmenu>
