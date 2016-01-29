@@ -45,7 +45,7 @@
                             }else{
                                 addLanguage($_SESSION["loggedIn"], $level, $language);
                             }
-                            echo "You have updated your ".$language." level to be ".$level."! <br>";
+                            echo "<script> alert(\"You have updated your ".$language." level to be ".$level."!\")</script>";
                         }
                     ?>
                 </div>
@@ -80,9 +80,15 @@
               <span class="error"><?php echo $levelErr;?></span>
    <br><br>
             </div>
-            <button type="submit" class="btn btn-default">Submit</button>
+                <button type="submit" class="btn btn-default">Submit</button><br><br>
+        </div>
+            <div class="col-md-8 col-md-offset-2 aboutus">
+            <?php showLanguages($_SESSION["loggedIn"], true); ?>
             </div>
                 
           </form>
+            
         </div>
+
       </div>
+      

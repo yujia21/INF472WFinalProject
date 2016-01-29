@@ -102,11 +102,10 @@ class Utilisateur {
         $dbh = null; // Déconnexion de MySQL
     }
     
-    function updating($login){
+    function updating($login,$pwd){
         $dbh = Database::connect();
-        $sth = $dbh->prepare("UPDATE `utilisateurs` SET `login` = ?, `password`=SHA1(?), `name`=?, `lastname`=?, `birthdate`=?, `email`=? WHERE `login` = '$login'");
-        $sth->execute(array($_POST['login'],$_POST['pwd'],$_POST['name'],$_POST['lname'],$_POST['bdate'],$_POST['email']));
-        echo "Updated profile!";
+        $sth = $dbh->prepare("UPDATE `utilisateurs` SET `password`=SHA1(?), `name`=?, `lastname`=?, `birthdate`=?, `email`=? WHERE `login` = '$login'");
+        $sth->execute(array($pwd,$_POST['name'],$_POST['lname'],$_POST['bdate'],$_POST['email']));
         $dbh = null; // Déconnexion de MySQL
     }
     
@@ -450,6 +449,6 @@ class Utilisateur {
         $query ="INSERT INTO `chatroom` (`login1`, `login2`, `date`, `message`, `messageread`) VALUES (?,?,?,?,?)";
         $sth = $dbh->prepare($query);
         $sth->execute(array($login1,$login2,$date,$message,False));
-        echo "Your message is sent at $date!<br>";
+        echo "<script> alert(\"Your message is sent at ".$date."!\")</script>";
     }
 ?>

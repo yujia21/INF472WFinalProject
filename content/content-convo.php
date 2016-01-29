@@ -29,7 +29,3 @@
     </div>    
     
 </div>
-
-<?php
-$other_email = "odonut@gmail.com";
-?>

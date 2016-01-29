@@ -16,14 +16,13 @@
     <?php
     require_once("utilities/userfunctions.php");
     $user = Utilisateur::getUtilisateur($_SESSION["loggedIn"]);
-    $oldlogin = $user['login'];
+    $login = $user['login'];
     $name = $user['name'];
     $lname = $user['lastname'];
     $email = $user['email'];
     $bdate = $user['birthdate'];
 // define variables and set to empty values
 $loginErr = $nameErr = $lnameErr = $emailErr = $pwdErr = $cpwdErr = $opwdErr = $bdateErr = "";
-$login=$oldlogin;
 $opwd = $pwd = $cpwd = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -57,67 +56,60 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
   }
 
-  if (!empty($_POST["pwd"])) {
+  if (!empty($_POST["pwd"])) { //New password entered
     $pwd = test_input($_POST["pwd"]);
   
-    if (empty($_POST["cpwd"])) {
+    if (empty($_POST["cpwd"])) { // But confirm password empty
         $pwdErr = "New password confirmation is required";
-    } else {
+    } else { //New password and confirm password entered
         $cpwd = test_input($_POST["cpwd"]);
         if ($pwd != $cpwd){
         $cpwdErr  = "New passwords don't match";}
     }
-  } else {
-      if (!empty($_POST["cpwd"])){
+  } else { //New password empty
+      if (!empty($_POST["cpwd"])){ //Confirm password not empty
          $cpwdErr = "New password is required";
       }
+      // not important if both empty: no changing password
   }
 
-    if (empty($_POST["bdate"])) {
+  if (empty($_POST["bdate"])) {
     $bdateErr = "Birthdate is required";
-  } 
-  
-  if(empty($_POST["login"])) {
-      $loginErr= "Login is required";
   } else {
-      $login=  test_input ($_POST["login"]);
-      if($login != $oldlogin){
-          if (Utilisateur::LoginExists($login)){
-            $loginErr= "Login already exists. Please choose another login";
-          }
-      }
+    $bdate = test_input($_POST["bdate"]);
   }
+  
   if (empty($_POST["opwd"])){
       $opwdErr = "Old password required!";
-  } else {
-    if (!Utilisateur::PasswordMatches($oldlogin,$_POST["opwd"])){
-        echo $pwd;
+  } else { //old password entered
+    if (!Utilisateur::PasswordMatches($login,$_POST["opwd"])){ // but not correct
         $opwdErr = "Old password doesn't match!";
-    } else {
+    } else { //old password is correct
         $opwd = $_POST["opwd"];
-        if (empty($_POST["pwd"]) && empty($_POST["cpwd"])){
+        if (empty($_POST["pwd"]) || empty($_POST["cpwd"])){
             $pwd=$opwd;
         }
     }
   }
   
   if($loginErr=="" &&$nameErr =="" && $lnameErr =="" && $emailErr =="" && $opwdErr =="" && $pwdErr =="" && $cpwdErr =="" && $bdateErr == ""){
-      updating($oldlogin);
+      updating($login,$pwd);
+      echo "<script type=\"text/javascript\">";
+      echo "alert(\"Changes made!\");";
+      echo "</script>";
+  } else {
+      echo "<script type=\"text/javascript\">";
+      echo "alert(\"There's an error!\");";
+      echo "</script>";      
   }
 }
 
-
 ?>
+        
     <div class="row">
         <div class="col-md-8 col-md-offset-2 aboutus"> 
             <p><span class="error">* required field.</span>  </p>
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])."?page=editprofile";?>" role="form" method="post">
-            <div class="form-group">
-              <label for="login">Login:</label>
-              <input type="text" name="login" class="form-control" id="login" value="<?php echo $login;?>">
-              <span class="error">* <?php echo $loginErr;?></span>
-   <br><br>
-            </div>
             <div class="form-group">
               <label for="name">Name:</label>
               <input type="text" name="name" class="form-control" id="name" value="<?php echo $name;?>">

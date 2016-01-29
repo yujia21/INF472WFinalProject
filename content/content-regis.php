@@ -89,9 +89,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
   
   if($loginErr=="" &&$nameErr =="" && $lnameErr =="" && $emailErr =="" && $pwdErr =="" && $cpwdErr =="" && $bdateErr == ""){
+      echo "<script type=\"text/javascript\">";
+      echo "alert(\"Registered! You can now log in.\");";
+      echo "</script>";
       registering();
-      $url='index.php?page=registered';
-      header("Location: $url");
+      $login = $name = $lname = $email = $pwd = $cpwd = $bdate = "";
   }
 }
 

@@ -54,12 +54,6 @@
     </page>
     
         <page>
-        <name>registered</name>
-        <menutitle>Registration Successful</menutitle>
-        <title>Registration Successful</title>
-        </page>
-    
-        <page>
         <name>languages</name>
         <menutitle>Spoken Languages</menutitle>
         <title>Spoken Languages</title>
