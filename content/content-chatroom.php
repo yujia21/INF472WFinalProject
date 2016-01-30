@@ -1,6 +1,12 @@
 <div class="container-fluid">
     <header>
-        <?php require_once('utilities/utils.php'); require_once("utilities/userfunctions.php");
+        <?php 
+        require_once('utilities/loginregis.php'); 
+        require_once('utilities/messaging.php'); 
+        require_once('utilities/pagesetup.php'); 
+        require_once("utilities/userfunctions.php")
+        ;
+        
         if(isset($_GET['altuser'])){
             $login=$_SESSION["loggedIn"];
             $altuserlogin=$_GET['altuser']; //securize this
@@ -8,10 +14,10 @@
             if ($authorized){
                 $altuser = Utilisateur::getUtilisateur($altuserlogin);
                 $name = $altuser['name'];
-        echo "<div class=\"row\">";
-            echo "<div class=\"jumbotron\">";
-                echo "<div class=\"container\">";
-                    echo "<h1 style=\"text-align:center\">Chat with $name !</h1>";
+                echo "<div class=\"row\">";
+                    echo "<div class=\"jumbotron\">";
+                        echo "<div class=\"container\">";
+                            echo "<h1 style=\"text-align:center\">Chat with $name !</h1>";
 
                         $messageErr="Required";
                         $message="";
@@ -19,7 +25,7 @@
                             if (empty($_POST["message"])) {
                               $messageErr = "Message is required!";
                              }else{
-                                  $message=$_POST['message'];
+                                  $message=test_input($_POST['message']);
                                   $messageErr="";
                               }
                         }
@@ -28,30 +34,29 @@
                             sendmessage($login,$altuserlogin,$message);
                         }
 
-                    
                 echo <<<START
-                        </div>;
-            </div>
-        </div>
-    </header>
-START
-    ;} else {
-            $authorized=false;
-            echo <<<START
-                <div class="row">
-                    <div class="jumbotron">
-                        <div class="container">
-START
-            ;
-                            echo "<h1 style=\"text-align:center\">Error! ".$_GET['altuser']." does not exist! </h1>";
-            echo <<<START
-                        </div>
+                                </div>
                     </div>
                 </div>
+            </header>
 START
-        ;}
-    }
-        else {
+            ;} else { //NOT AUTHORIZED
+                $authorized=false;
+                echo <<<START
+                    <div class="row">
+                        <div class="jumbotron">
+                            <div class="container">
+START
+                ;
+                                echo "<h1 style=\"text-align:center\">Error! ".$_GET['altuser']." does not exist! </h1>";
+                echo <<<START
+                            </div>
+                        </div>
+                    </div>
+START
+            ;}
+        }
+        else { //altuser not set
             $authorized=false;
             echo <<<START
                 <div class="row">
@@ -61,17 +66,35 @@ START
                         </div>
                     </div>
                 </div>
-START
-        ;}
+START;
+        }
         ?>
     
+        <script>
+            function chatupdate(){
+                //alerts pop up but php function doesn't work?
+                $.post("content/script.php", {login1: <?php $login ?>, login2: <?php $altuserlogin ?>}, function(response)){
+                    if(response==1){
+                        window.location.reload();
+                    }
+                }
+            }
+        </script>
    
     <div class="row">
-        <div class="col-md-8 col-md-offset-2 aboutus">     
+        <div class="col-md-8 col-md-offset-2 aboutus" >     
             <?php 
             if ($authorized){
+                echo <<<START
+                <script>
+                $(document).ready(function() {
+                    setInterval(function(){
+                        chatupdate();
+                    },5000);
+                }
+                </script>
+START;
                 showconversation($login,$altuserlogin);
-            
             echo "<form action=\"index.php?page=chatroom&altuser=$altuserlogin\" role=\"form\" method=\"post\">";
             echo <<<START
             <div class="form-group">
@@ -81,8 +104,8 @@ START
             </div>
             <button type="submit" class="btn btn-default">Submit</button>
             </div>
-START
-            ;} else {
+START;
+            } else {
                 echo "<h2>Sorry! This is a bad link!</h2>";
             }
             ?>

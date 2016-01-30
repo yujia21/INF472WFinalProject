@@ -14,7 +14,12 @@
         <div class="col-md-8 col-md-offset-2 aboutus">                         
             <p class="text-center"><h3>Your Language Abilities: </h3></p>
             <p>
-                <?php require_once("utilities/userfunctions.php");
+                <?php 
+                require_once('utilities/loginregis.php'); 
+                require_once('utilities/messaging.php'); 
+                require_once('utilities/pagesetup.php'); 
+                require_once("utilities/userfunctions.php")
+                ;
                     showLanguages($_SESSION["loggedIn"],true);
                 ?>
             </p>

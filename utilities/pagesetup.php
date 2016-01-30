@@ -47,7 +47,6 @@ function checkMember($askedPage){
              if($page->member=="true"){ // if private page
                  if (isset($_SESSION["loggedIn"])){return true;} else {return false;}
              } else {return true;}
-        
         }
     }
     return false;
@@ -96,58 +95,53 @@ $loginErr = $pwdErr = "";
 $login = $pwd = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-
- if(!empty($_POST["logout"])){
-     session_unset();
- } else {
-  if (empty($_POST["pwd"])) {
-    $pwdErr = "Password is required";
-  } else {
-    $pwd = $_POST["pwd"];
-  }
+    if(!empty($_POST["logout"])){
+        session_unset();
+    } else {
+        if (empty($_POST["pwd"])) {
+            $pwdErr = "Password is required";
+        } else {
+            $pwd = $_POST["pwd"];
+        }
   
   
-  if(empty($_POST["login"])) {
-      $loginErr= "Login is required";
-  } else {
-      $login= $_POST["login"];
-      $aux= Utilisateur::PasswordMatches($login,$pwd); 
-      if($aux==2){ // AUX IS CORRECT, but doesn't pop up?
-          $loginErr= "Login doesn't exist.";
-      } else {
-          if($aux==0){
-              
-              $pwdErr="Password incorrect";
-          }               
-      }
+        if(empty($_POST["login"])) {
+            $loginErr= "Login is required";
+        } else {
+            $login= $_POST["login"];
+            $aux= Utilisateur::PasswordMatches($login,$pwd); 
+            if($aux==2){ // AUX IS CORRECT, but doesn't pop up?
+                $loginErr= "Login doesn't exist.";
+            } else {
+            if($aux==0){
+                $pwdErr="Password incorrect";
+            }               
+        }
       
-      //REMEMBER ME  - not sure if works always?
-      if (isset($_POST['remember'])) {
-          if ($_POST['remember']){
-            $year = time() + 31536000;
-            setcookie('remember_me', $login, $year);
-          } else{
+    //REMEMBER ME
+        if (isset($_POST['remember'])) {
+            if ($_POST['remember']){
+                $year = time() + 31536000;
+                setcookie('remember_me', $login, $year);
+            } else{
                 if(isset($_COOKIE['remember_me'])) {
                     $past = time() - 100;
                     setcookie('remember_me', "", $past);
                 }
-          }
-      }
-      else{
-	if(isset($_COOKIE['remember_me'])) {
-            $past = time() - 100;
-            setcookie('remember_me', "", $past);
-	}
-}
-  }
+            }
+        }
+        else{
+            if(isset($_COOKIE['remember_me'])) {
+                $past = time() - 100;
+                setcookie('remember_me', "", $past);
+            }
+        }
+    }
   
-  if($loginErr=="" && $pwdErr ==""){
-      $_SESSION["loggedIn"]=$login;
-      //$url="?todo=$login&page=$askedPage";
-      //header("Location: $url");
-  }
- }
+    if($loginErr=="" && $pwdErr ==""){
+        $_SESSION["loggedIn"]=$login;
+    }
+}
 }
 
 
@@ -190,7 +184,12 @@ notIn;
        $aux=$_SESSION['loggedIn'];
 $n_messages = countnewmessages($aux);
 $n_requests = countrequests($aux);
-$n = $n_messages+$n_requests;
+if (checkadmin($aux)){
+    $n_comments = countnewcomments();
+    $n = $n_messages+$n_requests+$n_comments;
+} else {
+    $n = $n_messages+$n_requests;
+}
 foreach($page_list as $page){
     if ($page->showmenu=="true" & $page->member=="true"){
         if ($page->name=="notifications"){

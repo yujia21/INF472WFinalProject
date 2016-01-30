@@ -11,7 +11,12 @@
     
     <div class="row">
         <div class="col-md-8 col-md-offset-2 aboutus">                         
-            <?php require_once("utilities/userfunctions.php");
+            <?php 
+                require_once('utilities/loginregis.php'); 
+                require_once('utilities/messaging.php'); 
+                require_once('utilities/pagesetup.php'); 
+                require_once("utilities/userfunctions.php")
+                ;
                 $user = Utilisateur::getUtilisateur($_SESSION["loggedIn"]);
                 echo "<p><b>First Name: </b>".$user['name']."<br>";
                 echo "<b>Last Name: </b>".$user['lastname']."<br>";

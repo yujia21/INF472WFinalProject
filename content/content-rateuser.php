@@ -1,6 +1,11 @@
 <div class="container-fluid">
     <header>
-        <?php require_once('utilities/utils.php'); require_once("utilities/userfunctions.php");
+        <?php 
+            require_once('utilities/loginregis.php'); 
+            require_once('utilities/messaging.php'); 
+            require_once('utilities/pagesetup.php'); 
+            require_once("utilities/userfunctions.php")
+            ;
         if(isset($_GET['altuser'])){
             $altuserlogin=$_GET['altuser']; //securize this
             $altuser = Utilisateur::getUtilisateur($altuserlogin);
@@ -14,7 +19,6 @@
                 <div class="container">
                     <h1 style="text-align:center">Rate <?php echo $altuser['name'] ?>'s Language Skills!</h1>
                     <?php
-                        require_once("utilities/userfunctions.php");
                         $languageErr=$levelErr="Required";
                         $language=$ratelevel="";
                         if ($_SERVER["REQUEST_METHOD"] == "POST") {

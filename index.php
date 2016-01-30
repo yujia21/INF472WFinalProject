@@ -1,16 +1,21 @@
-<?php
+<?php 
+    require_once('utilities/loginregis.php'); 
+    require_once('utilities/messaging.php'); 
+    require_once('utilities/pagesetup.php'); 
+    require_once("utilities/userfunctions.php")
+    ;
     session_name("newuser" );
     session_start();
     if (!isset($_SESSION['initiated'])) {
         session_regenerate_id();
         $_SESSION['initiated'] = true;
     }
-require_once("utilities/userfunctions.php");
+
 ?>
 <!DOCTYPE html>
 <html>
     <head>
-      <?php require_once('utilities/utils.php');
+      <?php
       if(isset($_GET['page'])){$askedPage=$_GET['page'];}
       else {$askedPage="welcome";}
       
@@ -26,14 +31,14 @@ require_once("utilities/userfunctions.php");
     
     <body>
         <nav class="navbar navbar-default navbar-fixed-top">
-            <?php require_once('utilities/utils.php');
+            <?php 
             generateMenu();
             $members = checkMember($askedPage);
             ?>
         </nav>
         
         <div id="content">
-            <?php require_once('utilities/utils.php'); 
+            <?php 
             if ($authorized && $members){require ("content/content-$askedPage.php");}
             else {
                 echo <<<FIN
@@ -74,7 +79,7 @@ $('a.back-to-top, a.simple-back-to-top').click(function() {
 </script>
 
     </body>
-    <?php require_once('utilities/utils.php');
+    <?php 
     generateHTMLFooter();
     ?>
 </html>

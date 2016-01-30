@@ -13,17 +13,24 @@
     </header>
     
     <body>
-    <?php
-    require_once("utilities/userfunctions.php");
+    <?php 
+    require_once('utilities/loginregis.php'); 
+    require_once('utilities/messaging.php'); 
+    require_once('utilities/pagesetup.php'); 
+    require_once("utilities/userfunctions.php")
+    ;
+        
     $user = Utilisateur::getUtilisateur($_SESSION["loggedIn"]);
     $login = $user['login'];
     $name = $user['name'];
     $lname = $user['lastname'];
     $email = $user['email'];
     $bdate = $user['birthdate'];
+    
 // define variables and set to empty values
-$loginErr = $nameErr = $lnameErr = $emailErr = $pwdErr = $cpwdErr = $opwdErr = $bdateErr = "";
-$opwd = $pwd = $cpwd = "";
+    $loginErr = $nameErr = $lnameErr = $emailErr = $pwdErr = $cpwdErr = $opwdErr = $bdateErr = "";
+    $opwd = $pwd = $cpwd = "";
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if (empty($_POST["name"])) {
@@ -108,24 +115,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
     <div class="row">
         <div class="col-md-8 col-md-offset-2 aboutus"> 
-            <p><span class="error">* required field.</span>  </p>
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])."?page=editprofile";?>" role="form" method="post">
             <div class="form-group">
               <label for="name">Name:</label>
               <input type="text" name="name" class="form-control" id="name" value="<?php echo $name;?>">
-              <span class="error">* <?php echo $nameErr;?></span>
+              <span class="error"><?php echo $nameErr;?></span>
    <br><br>
             </div>
             <div class="form-group">
               <label for="lname">Last Name:</label>
               <input type="text" name="lname" class="form-control" id="lname" value="<?php echo $lname;?>">
-              <span class="error">* <?php echo $lnameErr;?></span>
+              <span class="error"><?php echo $lnameErr;?></span>
    <br><br>
             </div>
             <div class="form-group">
               <label for="email">Email address:</label>
               <input type="email" name="email" class="form-control" id="email" value="<?php echo $email;?>">
-              <span class="error">* <?php echo $emailErr;?></span>
+              <span class="error"><?php echo $emailErr;?></span>
    <br><br>
             </div>
             <div class="form-group">
@@ -143,13 +149,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="form-group">
               <label for="bdate">Birthdate:</label>
               <input type="date" name="bdate" class="form-control" id="bdate" value="<?php echo $bdate;?>">
-              <span class="error">* <?php echo $bdateErr;?></span>
+              <span class="error"><?php echo $bdateErr;?></span>
    <br><br>
             </div>
             <div class="form-group">
               <label for="pwd">Enter old password to confirm:</label>
               <input type="password" name="opwd" class="form-control" id="opwd" value="">
-              <span class="error">* <?php echo $opwdErr;?></span>
+              <span class="error"><?php echo $opwdErr;?></span>
    <br><br>
             </div>
             <button type="submit" class="btn btn-default">Submit</button>

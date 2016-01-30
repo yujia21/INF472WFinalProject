@@ -1,6 +1,11 @@
 <div class="container-fluid">
     <header>
-        <?php require_once('utilities/utils.php'); require_once("utilities/userfunctions.php");
+        <?php 
+            require_once('utilities/loginregis.php'); 
+            require_once('utilities/messaging.php'); 
+            require_once('utilities/pagesetup.php'); 
+            require_once("utilities/userfunctions.php")
+            ;
         if(isset($_GET['altuser'])){
             $altuserlogin=$_GET['altuser']; 
             $authorized = Utilisateur::LoginExists($altuserlogin);
