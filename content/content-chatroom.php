@@ -69,11 +69,16 @@ START
 START;
         }
         ?>
-    
+
+<script type="text/javascript">
+    //refreshes every minute
+    setInterval('window.location.reload()', 60*1000);
+</script>
+
         <script>
             function chatupdate(){
-                //alerts pop up but php function doesn't work?
-                $.post("content/script.php", {login1: <?php $login ?>, login2: <?php $altuserlogin ?>}, function(response)){
+                //trying to get it to refresh only when there are new messages but doesn't work
+                $.post("utilities/updatechatroom.php", {login1: <?php $login ?>, login2: <?php $altuserlogin ?>}, function(response)){
                     if(response==1){
                         window.location.reload();
                     }
@@ -90,7 +95,7 @@ START;
                 $(document).ready(function() {
                     setInterval(function(){
                         chatupdate();
-                    },5000);
+                    },10000);
                 }
                 </script>
 START;
@@ -104,7 +109,9 @@ START;
             </div>
             <button type="submit" class="btn btn-default">Submit</button>
             </div>
+            
 START;
+            echo "<div><a href='index.php?page=rateuser&altuser=$altuserlogin'>Rate ".$altuser['name']."'s language skills</a></div><br>";
             } else {
                 echo "<h2>Sorry! This is a bad link!</h2>";
             }

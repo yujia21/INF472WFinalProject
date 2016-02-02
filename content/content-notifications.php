@@ -18,37 +18,33 @@
 
                         echo "<h1 style=\"text-align:center\">Messages (".$n_messages.") and Requests (".$n_requests.")</h1>";
                         
-                        $validErr="Required";
-                        $validrequest="";
                         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                            if (!empty($_POST["validrequest"])){
-                                 $validrequest = $_POST["validrequest"];
-                                 $login1 = $_POST["login1"];
-                                 $login2 = $_POST["login2"];
-                                 $ratedlevel = $_POST["ratedlevel"];
-                                 $language = $_POST["language"];
-                                 if ($validrequest=="Accept"){
-                                    rateLanguage($login2,$ratedlevel,$language);
-                                    deleterateRequest($login1,$login2,$ratedlevel,$language);
-                                    echo "<script>alert(\"You have accepted ".$login1."'s rating of ".$ratedlevel." for your ".$language." ability.\")</script>";
-                                    $validrequest=$login1=$login2=$ratedlevel=$language="";
-                                    $n_requests = countrequests($login);
-                                 } elseif ($validrequest=="Reject"){
-                                    deleterateRequest($login1,$login2,$ratedlevel,$language);
-                                    echo "<script>alert(\"You have rejected ".$login1."'s rating of your ".$language." ability.\")</script>";
-                                    $validrequest=$login1=$login2=$ratedlevel=$language="";
-                                    $n_requests = countrequests($login);
-                                 }
-                           }
+                            if (!empty($_POST["acceptrequest"])){
+                                 $id = $_POST["acceptrequest"];
+                                 rateLanguage($id);
+                                 deleterateRequest($id);
+                                 $id="";
+                                 $n_requests = countrequests($login);
+                            }
+                            if (!empty($_POST["rejectrequest"])){
+                                 $id = $_POST["rejectrequest"];
+                                 deleterateRequest($id);
+                                 $id="";
+                                 $n_requests = countrequests($login);
+                            }
+                            
                            if (!empty($_POST["deletecomment"])){
                                $id = $_POST["deletecomment"];
                                deletecomment($id);
                                echo "<script>alert(\"You have deleted a comment.\")</script>";
+                               $n_comments=countnewcomments();
+                               
                            }
                            if (!empty($_POST["readcomment"])){
                                $id = $_POST["readcomment"];
                                readcomment($id);
                                echo "<script>alert(\"You have maked a comment as read.\")</script>";
+                               $n_comments=countnewcomments();
                            }
                         }
 

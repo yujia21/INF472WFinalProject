@@ -160,33 +160,46 @@
 
         while($row = $sth->fetch(PDO::FETCH_ASSOC)){
             $language = idtolangue($row['language_id']);
+            $id = $row['idknown'];
             if ($row['login1'] != null){
                 echo "<p>".$row['login1']." rated your ".$language." language abilities!";
-                echo "<input type=\"hidden\" name =\"login1\" id =\"login1\" value=\"".$row['login1']."\">";
-                echo "<input type=\"hidden\" name =\"login2\" id =\"login2\" value=\"".$row['login2']."\">";
-                echo "<input type=\"hidden\" name =\"language\" id =\"language\" value=\"".$language."\">";
-                echo "<input type=\"hidden\" name =\"ratedlevel\" id =\"ratedlevel\" value=\"".$row['ratedlevel']."\">";
-                echo "  <button type=\"submit\" name =\"validrequest\" id =\"validrequest\" value=\"Accept\">&#10004;</button>";
-                echo "  <button type=\"submit\" name =\"validrequest\" id =\"validrequest\" value=\"Reject\">&#10008;</button></p>"; 
+                echo "  <button type=\"submit\" name =\"acceptrequest\" id =\"acceptrequest\" value=\"$id\">&#10004;</button>";
+                echo "  <button type=\"submit\" name =\"rejectrequest\" id =\"rejectrequest\" value=\"$id\">&#10008;</button></p>"; 
             }
         }
         $dbh=null;
     }
     
-    function deleterateRequest($login1,$login2,$ratedlevel,$language){
-        $id = languetoid($language);
+    function deleterateRequest($id){
         $dbh = Database::connect();
-        $sth = $dbh->prepare("DELETE FROM `rating_requests` WHERE (`login1`, `login2`,`language_id`,`ratedlevel`)=(?,?,?,?)");
-        $sth->execute(array($login1,$login2,$id,$ratedlevel));
+//        $sth = $dbh->prepare("SELECT * FROM `rating_requests` WHERE  `idknown`='$id'");
+  //      $sth->execute();
+//        while($row = $sth->fetch(PDO::FETCH_ASSOC)){
+//            $login1 = idtolangue($row['login1']);
+//            $language = idtolangue($row['language_id']);
+        //}
+        //echo "<script>alert(\"You have rejected ".$login1."'s rating of your ".$language." ability.\")</script>";
+        $sth = $dbh->prepare("DELETE FROM `rating_requests` WHERE `idknown`=$id");
+        $sth->execute();
         $dbh = null; // Déconnexion de MySQL
     }
             
-    function rateLanguage($login,$ratedlevel,$language){
-        $id = languetoid($language);
+    function rateLanguage($id){
         $dbh = Database::connect();
-        $sth = $dbh->prepare("SELECT `ratedlevel`,`conversations` FROM `known_languages` WHERE  `login`='$login' AND `language_id`='$id' ");
+        $sth = $dbh->prepare("SELECT * FROM `rating_requests` WHERE  `idknown`='$id'");
         $sth->execute();
+        while($row = $sth->fetch(PDO::FETCH_ASSOC)){
+            $login1 = $row['login1']; //rater
+            $login2 = $row['login2']; //ratee
+            $language = idtolangue($row['language_id']);
+            $ratedlevel = $row['ratedlevel'];
+        }
+        echo "<script>alert(\"You have accepted ".$login1."'s rating of ".$ratedlevel." for your ".$language." ability.\")</script>";
+        $oldnumber = 0;
+        $newnumber=$ratedlevel;
         
+        $sth = $dbh->prepare("SELECT `ratedlevel`,`conversations` FROM `known_languages` WHERE  `login`='$login2' AND `language_id`='$id' ");
+        $sth->execute();
         while($row = $sth->fetch(PDO::FETCH_ASSOC)){   
             $oldlevel = $row['ratedlevel'];
             $oldnumber = $row['conversations'];
@@ -198,7 +211,7 @@
             $newlevel = ($oldlevel * $oldnumber + $ratedlevel) / $newnumber;
         }
         
-        $sth = $dbh->prepare("UPDATE `known_languages` SET `ratedlevel`='$newlevel', `conversations` = '$newnumber' WHERE  `login`='$login' AND `language_id`='$id' ");
+        $sth = $dbh->prepare("UPDATE `known_languages` SET `ratedlevel`='$newlevel', `conversations` = '$newnumber' WHERE  `login`='$login2' AND `language_id`='$id' ");
         $sth->execute();
         $dbh = null; // Déconnexion de MySQL
     }

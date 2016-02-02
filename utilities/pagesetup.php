@@ -157,7 +157,7 @@ notIn;
 if (isset($_COOKIE['remember_me'])){
                         echo "<p><input type=\"text\" class=\"form-control\" placeholder=\"Login\" name=\"login\" id=\"login\" value = \"".$_COOKIE['remember_me']."\" required autofocus></p>";
 } else {
-                       echo "<p><input type=\"text\" class=\"form-control\" placeholder=\"Login\" name=\"login\" id=\"login\" required autofocus></p>";
+                        echo "<p><input type=\"text\" class=\"form-control\" placeholder=\"Login\" name=\"login\" id=\"login\" required autofocus></p>";
 }
 echo <<<notIn
                         <span class="error"><?php echo .$loginErr.;?></span>
